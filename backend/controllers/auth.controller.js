@@ -3,7 +3,7 @@ import { generateTokenandSetCookie } from '../lib/generateTokenandSetCookie.js';
 import User from '../models/user.model.js';
 export const signup = async (req, res) => {
   try {
-    const { fullName, userName, email, password } = req.body;
+    const { fullname, username, email, password } = req.body;
 
     // apply validation using zod
 
@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
 
     // valdiation for existing user
 
-    const existingUser = await User.findOne({ username: userName });
+    const existingUser = await User.findOne({ username: username });
     if (existingUser)
       return res.status(400).json({message: "username is already taken" });
 
@@ -30,8 +30,8 @@ export const signup = async (req, res) => {
     const hashPass = await bcrypt.hash(password,salt)
 
     const newUser = new User({
-      fullname : fullName,
-      username : userName,
+      fullname : fullname,
+      username : username,
       email,
       password : hashPass,
     })
@@ -63,8 +63,8 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const {userName , password} = req.body;
-    const user = await User.findOne({username : userName})
+    const {username , password} = req.body;
+    const user = await User.findOne({username : username})
     const isPasswordCorrect = await bcrypt.compare(password,user?.password || "")
     if(!user || !isPasswordCorrect) return res.status(400).json({message : "invalid username or password"})
 

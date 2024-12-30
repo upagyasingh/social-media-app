@@ -37,7 +37,7 @@ const ProfilePage = () => {
 		refetch,
 		isRefetching,
 	} = useQuery({
-		queryKey: ["userProfile"],
+		queryKey: ["userProfile",username],
 		queryFn: async () => {
 			try {
 				const res = await fetch(`/api/users/profile/${username}`);
@@ -72,7 +72,7 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		refetch();
-	}, [username, refetch]);
+	}, [username, refetch,username]);
 
 	return (
 		<>

@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const useUpdateUserProfile = () => {
 	const queryClient = useQueryClient();
-
+	const navigate = useNavigate();
 	const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useMutation({
 		mutationFn: async (formData) => {
 			try {
@@ -23,16 +24,17 @@ const useUpdateUserProfile = () => {
 				throw new Error(error.message);
 			}
 		},
-		onSuccess: () => {
+		onSuccess: (data) => {
 			toast.success("Profile updated successfully");
 			Promise.all([
 				queryClient.invalidateQueries({ queryKey: ["authUser"] }),
 				queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
 			]);
 
-			const newUsername = data?.updatedProfile?.username; 
+			const newUsername = data?.username; 
+			console.log(newUsername)
 			if (newUsername) {
-			  navigate(`/api/users//profile/${newUsername}`); // Navigating to the new URL dynamically
+			  navigate(`/profile/${newUsername}`);
 			}
 		},
 		onError: (error) => {

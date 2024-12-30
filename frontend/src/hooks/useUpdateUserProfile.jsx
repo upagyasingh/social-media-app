@@ -29,6 +29,11 @@ const useUpdateUserProfile = () => {
 				queryClient.invalidateQueries({ queryKey: ["authUser"] }),
 				queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
 			]);
+
+			const newUsername = data?.updatedProfile?.username; 
+			if (newUsername) {
+			  navigate(`/api/users//profile/${newUsername}`); // Navigating to the new URL dynamically
+			}
 		},
 		onError: (error) => {
 			toast.error(error.message);

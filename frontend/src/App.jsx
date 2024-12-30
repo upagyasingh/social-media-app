@@ -56,12 +56,12 @@ function App() {
           path="/login"
           element={authUser ? <Navigate to="/" /> : <LoginPage />}
         />
-        <Route
+        {/* <Route
           path="/notifications"
           element={!authUser ? <Navigate to="/login" /> : <NotificationPage />}
-        />
+        /> */}
         <Route
-          path="/profile/:id"
+          path="/profile/:username"
           element={!authUser ? <Navigate to="/login" /> : <ProfilePage />}
         />
       </Routes>

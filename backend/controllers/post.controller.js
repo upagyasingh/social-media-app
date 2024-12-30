@@ -64,7 +64,8 @@ export const likeUnklikePost = async (req, res) => {
       // dislike
       await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
       await User.updateOne({ _id: userId }, { $pull: { likePosts: postId } });
-      return res.status(200).json({ messsage: "Post unliked successfully" });
+      const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString());
+			res.status(200).json(updatedLikes);
     } else {
       // like
       await Post.updateOne({ _id: postId }, { $push: { likes: userId } });
@@ -82,8 +83,10 @@ export const likeUnklikePost = async (req, res) => {
 
       await notification.save();
 
-      return res.status(200).json({ messsage: "Post liked successfully" });
-    }
+      const updatedLikes = post.likes;
+			res.status(200).json(updatedLikes);
+
+      }
   } catch (error) {
     console.log("error in create like / unlike post controller ", error);
     return res.status(500).json({ messsage: "Internal Server error" });
@@ -171,7 +174,7 @@ export const getFollowingPost = async (req, res) => {
 
 export const getUserPost = async (req,res)=>{
     try {
-        const username = req.params
+        const {username} = req.params
         const user = await User.findOne({username})
         if (!user) return res.status(400).json({ messsage: "User not found" });
     

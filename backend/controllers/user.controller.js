@@ -22,6 +22,7 @@ export const followUnfollowUser = async (req, res) => {
   try {
     const { id } = req.params;
     const userToModify = await User.findById(id);
+    
     const currentUser = await User.findById(req.user._id);
     if (id === req.user._id.toString())
       return res
@@ -39,6 +40,8 @@ export const followUnfollowUser = async (req, res) => {
       return res.status(200).json({ message: "unfollowed successfully" });
     } else {
       // follow
+      console.log("taking time")
+      
       await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
       await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
       // send notification
@@ -49,6 +52,8 @@ export const followUnfollowUser = async (req, res) => {
       });
 
       await newNotification.save();
+      res.status(200).json({ message: "User followed successfully" });
+
     }
   } catch (error) {
     console.log(" error in follow unfollow controller ", error);
@@ -78,12 +83,12 @@ export const getSuggestedUser = async (req, res) => {
 
   res.status(200).json(suggestedUser);
 };
-export const updateUserProfile = async (re, res) => {
+export const updateUserProfile = async (req, res) => {
   const { fullname, username, email, currentPassword, newPassword, bio, link } =
     req.body;
   let { profileimg, coverimg } = req.body;
 
-  const userId = req._id;
+  const userId = req.user._id;
 
   try {
     let user = await User.findById(userId);

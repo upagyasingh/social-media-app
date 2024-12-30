@@ -55,7 +55,7 @@ const Sidebar = () => {
               <span className="text-lg hidden md:block">Home</span>
             </NavLink>
           </li>
-          <li className="flex justify-center md:justify-start">
+          {/* <li className="flex justify-center md:justify-start">
             <NavLink
               to="/notifications"
               className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
@@ -63,7 +63,7 @@ const Sidebar = () => {
               <IoNotifications className="w-6 h-6" />
               <span className="text-lg hidden md:block">Notifications</span>
             </NavLink>
-          </li>
+          </li> */}
 
           <li className="flex justify-center md:justify-start">
             <NavLink
@@ -82,7 +82,7 @@ const Sidebar = () => {
           >
             <div className="avatar hidden md:inline-flex">
               <div className="w-8 rounded-full">
-                <img src={data?.profileImg || "/avatar-placeholder.png"} />
+                <img src={data?.profileimg || "/avatar-placeholder.png"} />
               </div>
             </div>
             <div className="flex justify-between flex-1">
